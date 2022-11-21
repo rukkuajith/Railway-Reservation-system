@@ -1,0 +1,118 @@
+{% extends 'features/srbase.html' %}  
+
+{% block body %}
+    {% load static %}
+
+    <style>
+        body{
+            background-image:url('{% static "/images/img/rr.jpg" %}');
+            background-size:100%;
+            background-repeat:no-repeat;
+
+
+        }
+        .sty
+        {
+            font-family: 'Dancing Script', cursive;
+            color:white;
+        }
+        .hd
+        {
+            margin-left:600px;
+
+            }
+         .tform{
+            background-color:rgba(0,0,0,0.3);
+            }
+            input[type=submit]{
+              background: #ea6f10;
+              color: rgb(5, 5, 5);
+              border-style: outset;
+              border-color: #ea6f10;
+              border-radius:4px;
+              height: 50px;
+              width: 150px;
+              font: bold15px arial,sans-serif;
+              text-shadow: none;
+              cursor:pointer;
+              margin-left:600px;
+              }
+    </style>
+
+    <input type="checkbox" id="check">
+<!--header area start-->
+<header>
+  <label for="check">
+    <i class="fas fa-bars" id="sidebar_btn"></i>
+  </label>
+  <div class="left_area">
+    <h3><span>Yaathra</span></h3>
+  </div>
+  <div class="right_area">
+    <a href="/logout/" class="logout_btn">LOGOUT</a>
+  </div>
+</header>
+
+
+<div class="sidebar">
+    <div class="profile_info">
+      <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+      <h4>Welcome:{{request.user}}</h4>
+    </div>
+
+{% if request.user.is_superuser %}
+   
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+    <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+    <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+    <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/Bookingstatus/"><i class="fas fa-table"></i><span>VIEW RESERVATION</span></a>
+  </div>
+
+{%else%}
+     
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+    <a href="/login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+   
+    </div>
+{%endif%}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });
+</script>
+<br>
+
+
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <br><br><br>
+    <div class="col-lg-4" style="margin-top:100px;">
+    <h2 style="text-align:center;"><span class="sty" style="font-size:45px;color:rgb(254, 254, 254);">Train Schedule</span></h2>
+
+    <form class="form-inline" style="margin-top:50px;"action="trains">
+
+      &nbsp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;  <span class="sty" style="font-size:30px;color:rgb(250, 250, 250);">Select Train Number/Name:</span><br/><br/>
+      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <select name="tnum"style="width:200px; height: 40px; color:#ea6f10">
+        {% for i in a %}
+            <option value="{{i.tno}}">{{i.tno}}/{{i.tname}}</option>
+        {%endfor%}
+        </select>
+        <br>
+        <br>
+        &ensp;&ensp;&ensp;<input type="submit" value="check">
+    </form>
+        <br/>
+        </div>
+        </div>
+
+{% endblock %}

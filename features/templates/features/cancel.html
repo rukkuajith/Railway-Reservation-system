@@ -1,0 +1,113 @@
+{% extends 'features/srbase.html' %}
+
+{%block body%}
+{% load static %}<br>
+<br>
+<br>
+    <h1 style="text-align:center;font-family:sans-seriff; color:white">Current Reservations</h1>
+    <style>
+        body{
+            background-image:url('{% static "/images/img/rr.jpg" %}');
+            background-size:100%;
+            background-repeat:no-repeat;
+        }
+    </style>
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <h3><span>Yaathra</span></h3>
+      </div>
+      <div class="right_area">
+        <a href="/logout/" class="logout_btn">LOGOUT</a>
+      </div>
+    </header>
+    
+    
+    <div class="sidebar">
+        <div class="profile_info">
+          <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+          <h4>Welcome:{{request.user}}</h4>
+        </div>
+    {% if request.user.is_superuser %}
+   
+        <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+        <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+        <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+        <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+        <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+        <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+        <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+        <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+        <a href="login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+    
+      </div>
+    {%else%}
+         
+        <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+        <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+        <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+        <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+        <a href="/login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+      
+        </div>
+    {%endif%}
+    
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+          $('.nav_btn').click(function(){
+            $('.mobile_nav_items').toggleClass('active');
+          });
+        });
+    </script>
+
+
+
+        {%csrf_token%}
+    <div class="container">
+    {% for i in res %}
+        <div class="tick" style="font-size:13px;color:white;padding:25px;padding-left:40px;">
+<br>
+           <b> &nbsp;&nbsp;Date       :{{i.date}}<br/>
+            &nbsp;&nbsp;Train no   :{{i.tno}}<br/>
+            &nbsp;&nbsp;PNR        :{{i.pnr}}<br/>
+            &nbsp;&nbsp;Src        :{{i.src}}<br/>
+            &nbsp;&nbsp;Des        :{{i.des}}<br/></b>
+                            <button class="btn btn-danger" value="{{i.pnr}}" style="float:right;border-radius:50%;" onclick="y(this.value)"type="submit">Cancel</button><br/>
+
+        </div>
+            <br/><br/>
+        {%endfor%}
+
+</div>
+
+    <script>
+     function y(vl)
+    {
+
+
+
+        $.ajax({
+            type:'POST',
+            url:'cancel/cn/',
+            data:{
+                    id:vl,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+
+                  },
+        success:function(data){
+
+            alert("Cancelled Tickets||Amount Refunded:"+data);
+            window.location.href=window.location.href;
+                               }
+            }
+                )
+
+    }
+    </script>
+
+{%endblock%}

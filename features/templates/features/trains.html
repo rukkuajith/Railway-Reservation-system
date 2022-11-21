@@ -1,0 +1,199 @@
+{% extends 'features/srbase.html' %}
+
+ <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script></head>
+{%block body%}
+
+{% load static %}
+
+<style>
+    
+    
+    .hd1{
+      width: 15%;
+      padding: 10px 10px;
+      margin: 30px 30px;
+      box-sizing: border-box;
+      border: 1.5px solid #ea6f10;
+      border-radius: 4px;
+    }
+    button[type=submit]{
+      background: #ea6f10;
+      color: rgb(5, 5, 5);
+      border-style: outset;
+      border-color: #ea6f10;
+      border-radius:4px;
+      height: 50px;
+      width: 70px;
+      font: bold15px arial,sans-serif;
+      text-shadow: none;
+      cursor:pointer;
+      
+      }
+      body{
+        background-image:url('{% static "images/img/rr.jpg"%}');
+        background-size:cover;
+        background-repeat:no-repeat;
+      }
+</style>
+    
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <h3><span>Yaathra</span></h3>
+      </div>
+      <div class="right_area">
+        <a href="/logout/" class="logout_btn">LOGOUT</a>
+      </div>
+    </header>
+    
+    
+    <div class="sidebar">
+        <div class="profile_info">
+          <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+          <h4>Welcome:{{request.user}}</h4>
+        </div>
+    
+{% if request.user.is_superuser %}
+       
+        <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+        <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+        <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+        <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+        <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+        <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+        <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+        <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+        <a href="login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+        </div>
+    
+{% else %}
+         
+            <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+            <a href="search"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+            <a href="schedule"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+            <a href="pnr"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+            <a href="cancel"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+          
+          </div>
+{%endif%}
+
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+          $('.nav_btn').click(function(){
+            $('.mobile_nav_items').toggleClass('active');
+          });
+        });
+    </script>
+
+{%csrf_token%}
+<br><br><br>
+
+<h2 style="text-align:center;"><span class="sty" style="font-size:45px;color:rgb(255, 255, 255);">BOOK TRAIN</span></h2>
+   
+  
+    <form class="tform" action="book1/" method="POST">
+        {%csrf_token%}
+        <div class="hd">
+          <label style="color:#ffffff"><b> Source: </b></label> <input type="text" value="{{src}}" name="src" readonly> &ensp;<label style="color:#ffffff"><b>Destination:</b></label> <input type="text" value="{{des}}" name="des" readonly>&ensp; &ensp; &ensp;<label style="color:#ffffff"><b>Date&ensp;</b></label><input type="date" placeholder="DD/MM/YYYY" id="dt" name="date" style="width:170px; height: 20px; color:#000000"><br><br>
+        </div>
+    <h1 id="123"></h1>
+        <span hidden id="od">{{o}}</span>
+  	<table style="margin-left:300px;font-size:20px;color:rgb(247, 243, 243);">
+        <tr class="sty" style="color:rgb(244, 242, 242);padding:10px;">
+           <th style="padding:10px;">Train No.</th>
+            <th style="padding:10px;">Source</th>
+            <th style="padding:10px;">Arrival Time</th>
+            <th style="padding:10px;">Select Class</th>
+            <th style="padding:10px;">Availibility</th>
+            <th style="padding:5px;">Fare/Seats</th>
+            <th style="padding:10px;">No of Seats</th>
+            <th style="padding:10px;">Book</th>
+        </tr>
+{%if data%}
+    {% for i in data %}
+        <tr>
+            <td style="padding:15px;"><h5 ><b>{{i.tno}}</b></h5></td>
+             <td style="padding:15px;"><h5><b>{{i.sid}}</b></h5></td>
+            <td style="padding:15px;"><h5><b>{{i.atime}}</b></h5></td>
+            <td><h6>
+                <select id="{{i.tno}}" onchange="x(this.value,this.id)" name="cls{{i.tno}}">
+                    <option value="NONE">NONE</option>
+                    <option value="AC">AC</option>
+                    <option value="2S">2S</option>
+                    <option value="3A">3A</option>
+                    <option value="SL">SL</option>
+                </select>
+            </h6></td>
+            <td ><h6 id="{{i.tno}}1"></h6></td>
+            <td><input type="text" id="{{i.tno}}p1" name="price{{i.tno}}" value="" readonly > </h6></td>
+            <td><input type="number" id="{{i.tno}}-2" name="nos{{i.tno}}"/></td>
+            <td>
+                <button type="submit" value="{{i.tno}}" name="bk">Book Seat</button>
+            </td>
+        </tr>
+
+    {% endfor %}
+{%else%}
+   <td><p>Trains are not available</p></td>
+    </table>
+{%endif%}
+        <br/><br/><br/>
+        </form>
+  <script>
+
+    $(document).ready(function(){
+
+        $(function(){
+            var dtToday = new Date();
+            var month = dtToday.getMonth()+1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+
+            if(month<10)
+
+               month = '0' + month.toString();
+            
+            if (day<10)
+              
+               day = '0' + day.toString();
+
+            var maxDate = year + '-' +  month + '-' +  day;
+            $('#dt').attr('min', maxDate);
+        });
+    })
+    
+
+    function x(vl,z)
+    {
+
+        var da=document.getElementById('dt').value;
+        var o=document.getElementById('od').innerHTML;
+        $.ajax({
+            type:'POST',
+            url:'search/trains/cva/',
+            data:{  tno:z,
+                    cls:vl,
+                    od:o,
+                    dt:da,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+
+                  },
+        success:function(data){
+            var read=data.read;
+            var price=data.price;
+            $('#'+z+'1').html(data.read+" Seats");
+
+            $('#'+z+'p1').val(price);
+                               }
+            }
+                )
+    }
+      </script>
+
+
+        {%endblock%}

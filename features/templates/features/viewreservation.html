@@ -1,0 +1,90 @@
+{% extends 'features/srbase.html'%}
+
+
+{% block body%}
+
+<br><br><br>
+<h2 style="text-align:center;"><span class="sty" style="font-size:45px;color:rgb(246, 246, 246);">Add Route Station</span></h2>
+
+{% load static %}
+<style>
+body{
+    background-image:url('{% static "images/slide-5.jpg"%}');
+    background-size:100%;
+    background-repeat:no-repeat;
+}
+</style>
+<input type="checkbox" id="check">
+<!--header area start-->
+<header>
+  <label for="check">
+    <i class="fas fa-bars" id="sidebar_btn"></i>
+  </label>
+  <div class="left_area">
+    <h3><span>Yaathra</span></h3>
+  </div>
+  <div class="right_area">
+    <a href="logout" class="logout_btn">LOGOUT</a>
+  </div>
+</header>
+
+
+<div class="sidebar">
+    <div class="profile_info">
+      <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+      <h4>Welcome:{{request.user}}</h4>
+    </div>
+
+      {% if request.user.is_superuser %}
+   
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+    <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+    <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+    <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/Bookingstatus/"><i class="fas fa-table"></i><span>VIEW RESERVATION</span></a>
+    {%endif%}
+  </div>
+        
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });
+    </script>
+
+<table style="margin-left:300px;font-size:20px;color:rgb(247, 243, 243);">
+        <tr style="color:rgb(244, 242, 242);">
+           <th >DATE</th>
+            <th >TRAIN NAME</th>
+            <th >PASSENGER</th>
+            <th >CLASS</th>
+            <th >SEATS</th>
+            <th >Pnr</th>
+            
+        </tr>
+{%if cont1%}
+    {% for i in cont1 %}
+        <tr>
+            <td ><h5 ><b>{{i.date}}</b></h5></td>
+            {% for j in cont2 %}
+            {%if i.tno_id == j.tno%}
+             <td ></th><h5><b>{{j.tname}}</b></h5></td>
+            {%endif%}
+            {%endfor%}
+            <td ><h5><b>{{i.user}}</b></h5></td>
+            <td ><h5><b>{{i.cls}}</b></h5></td>
+            <td ><h5><b>{{i.nos}}</b></h5></td>
+            <td ><h5><b>{{i.pnr}}</b></h5></td>
+        </tr>
+
+    {% endfor %}
+{%else%}
+   <td><p>NO RESERVATIONS MADE</p></td>
+    </table>
+
+{%endif%}
+{% endblock %}

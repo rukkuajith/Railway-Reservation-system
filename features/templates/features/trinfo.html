@@ -1,0 +1,30 @@
+{% extends 'features/srbase.html' %}
+{% block body%}
+{% load static %}
+<style>
+    body{
+        background-image:url('{% static "/images/img/rr.jpg" %}');
+        background-size:cover;
+        background-repeat:no-repeat;
+    }
+</style>
+<h2 style="text-align:center;"><span class="sty" style="font-size:45px;color:white;">Train Schedule</span></h2>
+
+    <table style="margin:50px 100px;font-size:25px;color:white;" class="table-striped table-bordered table-hover">
+        <tr class="sty" style="color:white;padding:10px;">
+           <th style="padding:10px;">Station ID</th>
+
+            <th style="padding:10px;">Arrival Time</th>
+        </tr>
+
+    {% for i in data %}
+        <tr>
+            <td><h6>{{i.sid}}</h6> </td>
+            <td><h6>{{i.atime}}</h6></td>
+        </tr>
+
+    {% endfor %}
+
+    </table>
+    <a href="{%url 'home:hom'%}" style="margin-left:550px"><button class="btn btn-success">Back To Homepage</button></a>
+{% endblock%}

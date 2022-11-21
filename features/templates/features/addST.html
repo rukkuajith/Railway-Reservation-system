@@ -1,0 +1,102 @@
+{% extends 'features/srbase.html'%}
+
+{% block body%}
+<br>
+<br><br>
+<h2 style="text-align:center;"><span class="sty" style="font-size:45px;color:rgb(247, 247, 247);">Add Stations</span></h2>
+
+{% load static %}
+
+<style>
+body{
+    background-image:url('{% static "/images/img/rr.jpg" %}');
+    background-size:100%;
+    background-repeat:no-repeat;
+}
+input[type=text] {
+  width: 15%;
+  padding: 10px 10px;
+  margin: 30px 30px;
+  box-sizing: border-box;
+  border: 1.5px solid #ea6f10;
+  border-radius: 4px;
+}
+input[type=submit]{
+  background: #ea6f10;
+  color: rgb(5, 5, 5);
+  border-style: outset;
+  border-color: #ea6f10;
+  border-radius:4px;
+  height: 50px;
+  width: 150px;
+  font: bold15px arial,sans-serif;
+  text-shadow: none;
+  cursor:pointer;
+  margin-left:600px;
+  }
+</style>
+
+
+{% if messages %}
+{% for message in messages%}
+<script>
+    alert("{{message}}");
+</script>
+
+{% endfor %}
+{% endif%}
+
+<input type="checkbox" id="check">
+<!--header area start-->
+<header>
+  <label for="check">
+    <i class="fas fa-bars" id="sidebar_btn"></i>
+  </label>
+  <div class="left_area">
+    <h3><span>Yaathra</span></h3>
+  </div>
+  <div class="right_area">
+    <a href="logout" class="logout_btn">LOGOUT</a>
+  </div>
+</header>
+
+
+<div class="sidebar">
+    <div class="profile_info">
+      <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+      <h4>Welcome:{{request.user}}</h4>
+    </div>
+
+      {% if request.user.is_superuser %}
+   
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+    <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+    <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+    <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/Bookingstatus/"><i class="fas fa-table"></i><span>VIEW RESERVATION</span></a>
+  <!--  <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+    
+    <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+    <a href="login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>-->
+  </div>
+        
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });
+    </script>
+<br><br><br>
+<form action="" method="post">
+    {%csrf_token%}
+    &ensp;&ensp; &ensp;&ensp;&ensp;  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;&ensp; &ensp; &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<label style="color:#f9f9f9"><b> Station Code:</b></label><input type="text" name="sid">
+    &ensp;&ensp; &ensp;&ensp;<label style="color:#f9f9f9"><b> Station Name:</b></label><input type="text" name="sname">
+    <br><br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <input type="submit" class="btn btn-success">
+</form>
+
+{% endif %}
+{%endblock%}

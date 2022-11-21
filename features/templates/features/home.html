@@ -1,0 +1,142 @@
+{% extends 'features/base.html' %}
+
+{% block body %}
+
+{% load static %}
+{% if messages %}
+{% for message in messages%}
+<script>
+    alert("{{message}}");
+</script>
+
+{% endfor %}
+{% endif%}
+
+<style>
+  body{
+    background-image:url('{% static "images/ju.jpg"%}');
+    background-size:100%;
+    background-repeat:no-repeat;
+
+
+}
+</style>
+
+
+
+<input type="checkbox" id="check">
+<!--header area start-->
+<header>
+  <label for="check">
+    <i class="fas fa-bars" id="sidebar_btn"></i>
+  </label>
+  <div class="left_area">
+    <h3><span>Yaathra</span></h3>
+  </div>
+  <div class="right_area">
+    <a href="logout" class="logout_btn">LOGOUT</a>
+  </div>
+</header>
+
+<!--
+            {% if request.user.is_superuser %}
+
+             <div class="mobile_nav">
+                <div class="nav_bar">
+                  <img src="1.png" class="mobile_profile_image" alt="">
+                  <i class="fa fa-bars nav_btn"></i>
+                </div>
+                <div class="mobile_nav_items">
+                  <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+                  <a href="addT"><i class="fas fa-cogs"></i><span>ADD TRAINS</span></a>
+                  <a href="addST"><i class="fas fa-table"></i><span>ADD STATIONS</span></a>
+                  <a href="addR"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+                  <a href="addRT"><i class="fas fa-info-circle"></i><span>ADD TOUCHING STATION</span></a>
+                  <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+                </div>
+              </div>
+
+            {% endif %}
+
+            <div class="mobile_nav">
+                <div class="nav_bar">
+                  <img src="1.png" class="mobile_profile_image" alt="">
+                  <i class="fa fa-bars nav_btn"></i>
+                </div>
+                <div class="mobile_nav_items">
+                  <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+                  <a href="search"><i class="fas fa-cogs"></i><span>SEARCH TRAINS</span></a>
+                  <a href="schedule"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+                  <a href="pnr"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+                  <a href="cancel"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+                  <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a>
+                </div>
+              </div>
+  <!--header area end-->
+    <!--mobile navigation bar start-->
+    
+    <!--mobile navigation bar end-->
+
+    
+    
+
+      <div class="sidebar">
+        <div class="profile_info">
+          <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+          <h4>Welcome:{{request.user}}</h4>
+        </div>
+
+    {% if request.user.is_superuser %}
+        
+      
+        <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+        <a href="addT"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+        <a href="addST"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+        <a href="addR"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+        <a href="addRT"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+        <a href="schedule"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+        <a href="/login/home/Bookingstatus/"><i class="fas fa-table"></i><span>VIEW RESERVATION</span></a>
+       <!--- <a href="search"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+       
+        <a href="pnr"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+        <a href="cancel"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>-->
+      </div>
+      
+
+    {%else%}
+     
+        <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+        <a href="search"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+        <a href="schedule"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+        <a href="pnr"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+        <a href="cancel"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+        
+      </div>
+    {%endif%}
+<script type="text/javascript">
+
+        $(document).ready(function(){
+          $('.nav_btn').click(function(){
+            $('.mobile_nav_items').toggleClass('active');
+          });
+        });
+        </script>
+
+{% endblock %}
+
+
+
+
+    
+    <!--sidebar start-->
+    
+    
+
+<!----
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });
+    </script>

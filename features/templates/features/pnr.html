@@ -1,0 +1,126 @@
+{% extends 'features/srbase.html' %}
+
+{% block body %}
+         <!-- Latest compiled and minified CSS -->
+    {% load static %}
+
+    <style>
+        body{
+            background-image:url('{% static "/images/img/rr.jpg" %}');
+            background-size:100%;
+            background-repeat:no-repeat;
+
+
+        }
+        .sty
+        {
+            font-family: 'Arial';
+            color:white;
+        }
+        .hd
+        {
+            margin-left:400px;
+
+            }
+         
+            .fpnr
+            {
+                width:20%;
+                margin-left:500px;
+                margin-top:150px;
+                padding:15px;
+                
+                }
+
+        .tick{
+            width:20%;
+            height:150px;
+           background-image:url('{% static "images/ticket6"%}');
+            background-size:100% 100%;
+            background-repeat:no-repeat;
+            }
+    </style>
+
+
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <h3><span>Yaathra</span></h3>
+      </div>
+      <div class="right_area">
+        <a href="/logout/" class="logout_btn">LOGOUT</a>
+      </div>
+    </header>
+    
+    
+    <div class="sidebar">
+        <div class="profile_info">
+          <img src="{%static 'images/pro.jpg' %}" class="profile_image" alt="">
+          <h4>Welcome:{{request.user}}</h4>
+        </div>
+
+{% if request.user.is_superuser %}
+   
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/addT/"><i class="fas fa-cogs"></i><span>ADD TRAIN</span></a>
+    <a href="/login/home/addST/"><i class="fas fa-table"></i><span>ADD STATION</span></a>
+    <a href="/login/home/addR/"><i class="fas fa-th"></i><span>ADD ROUTE</span></a>
+    <a href="/login/home/addRT/"><i class="fas fa-info-circle"></i><span>ADD ROUTE STATION</span></a>
+    <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+    <a href="login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+
+  </div>
+{%else%}
+     
+    <a href="/login/home/"><i class="fas fa-desktop"></i><span>DASHBOARD</span></a>
+    <a href="/login/home/search/"><i class="fas fa-cogs"></i><span>SEARCH TRAIN</span></a>
+    <a href="/login/home/schedule/"><i class="fas fa-table"></i><span>CHECK SCHEDULE</span></a>
+    <a href="/login/home/pnr/"><i class="fas fa-th"></i><span>CHECK PNR</span></a>
+    <a href="/login/home/cancel/"><i class="fas fa-info-circle"></i><span>CANCEL SEAT</span></a>
+  
+    </div>
+{%endif%}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });
+</script>
+
+<br>
+
+<br><br><br>
+{%if r%}
+<h2 style="text-align:center"><span class="sty" style="font-size:45px;color:#f0edea;"> Current Pnr Status</span></h2>
+<div class="fpnr">
+{%for i in r%}
+
+    <h4 class="sty" style="font-size:20px;color:#f0edea;">NAME-&nbsp;&nbsp;{{i.user}}<br/>
+      PNR-&nbsp;&nbsp;{{i.pnr}}<br/>
+    Number of seats-&nbsp;&nbsp;{{i.nos}}<br/>
+    Status-&nbsp;&nbsp;{{i.status}}<br/><br/></h4>
+
+{%endfor%}
+        <a href="{%url 'home:hom'%}"><button class="btn btn-success">Back To Homepage</button></a>
+
+</div>
+{%else%}
+<h1 style="text-align:center;font-family:sans seriff;color:#f0edea;">ENTER PNR NUMBER</h1>
+
+<form class="fpnr" action="" method="POST">
+    {%csrf_token%}
+    <span class="sty" style="font-size:25px;color:#f0edea;">PNR:</span><input type="text" name="pnr"><br/>
+    <input type="submit" value="Check">
+</form>
+{%endif%}
+
+{% endblock %}
